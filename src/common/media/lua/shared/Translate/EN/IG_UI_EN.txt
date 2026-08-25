@@ -11,5 +11,5 @@ IG_UI_EN = {
     IGUI_ElixirCraft_GlobalUse = "%1 used %2.",
     IGUI_ElixirCraft_TreatmentKnoxCure = "an Experimental Knox Cure",
     IGUI_ElixirCraft_TreatmentAdrenaline = "an Adrenaline Stimulant",
-    IGUI_ElixirCraft_VersionMismatch = "Knox Virus Elixirs client/server versions do not match. Treatment commands are blocked.",
+    IGUI_ElixirCraft_VersionMismatch = "Elixir Crafting client/server versions do not match. Treatment commands are blocked.",
 }
