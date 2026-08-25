@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.5.2] - 2026-08-22
+
+- imports the audited v1.5.2 package exactly as deployed;
+- updates the custom sandbox-options schema marker for current Build 42 parsing;
+- preserves protocol v3 and all existing save, cooldown, treatment, item, and `ElixirCraftB42` identifiers;
+- audits server-authoritative item validation, rejection recovery, rate limiting, manifests, translations, recipes, textures, and Workshop package structure.
+
 ## [1.5.1] - 2026-08-20
 
 - renames the displayed package to Knox Virus Elixirs without changing the canonical `ElixirCraftB42` mod ID;

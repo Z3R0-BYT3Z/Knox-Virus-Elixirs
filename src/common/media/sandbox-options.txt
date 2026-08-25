@@ -1,11 +1,11 @@
-VERSION = 1,
+VERSION = 2,
 
 option ElixirCraftB42.EnableKnoxCure
 {
     type = boolean,
     default = true,
     page = ElixirCraftB42,
-    translation = ElixirCraftB42_EnableKnoxCure,
+    translation = EnableKnoxCure,
 }
 
 option ElixirCraftB42.EnableKnoxCureCrafting
@@ -13,7 +13,7 @@ option ElixirCraftB42.EnableKnoxCureCrafting
     type = boolean,
     default = true,
     page = ElixirCraftB42,
-    translation = ElixirCraftB42_EnableKnoxCureCrafting,
+    translation = EnableKnoxCureCrafting,
 }
 
 option ElixirCraftB42.KnoxCureMedicalLevel
@@ -23,7 +23,7 @@ option ElixirCraftB42.KnoxCureMedicalLevel
     max = 10,
     default = 6,
     page = ElixirCraftB42,
-    translation = ElixirCraftB42_KnoxCureMedicalLevel,
+    translation = KnoxCureMedicalLevel,
 }
 
 option ElixirCraftB42.ConsumeCureOnFailedUse
@@ -31,7 +31,7 @@ option ElixirCraftB42.ConsumeCureOnFailedUse
     type = boolean,
     default = false,
     page = ElixirCraftB42,
-    translation = ElixirCraftB42_ConsumeCureOnFailedUse,
+    translation = ConsumeCureOnFailedUse,
 }
 
 option ElixirCraftB42.CureTreatmentScope
@@ -40,7 +40,7 @@ option ElixirCraftB42.CureTreatmentScope
     numValues = 4,
     default = 2,
     page = ElixirCraftB42,
-    translation = ElixirCraftB42_CureTreatmentScope,
+    translation = CureTreatmentScope,
 }
 
 option ElixirCraftB42.CureEffectiveness
@@ -50,7 +50,7 @@ option ElixirCraftB42.CureEffectiveness
     max = 100.0,
     default = 100.0,
     page = ElixirCraftB42,
-    translation = ElixirCraftB42_CureEffectiveness,
+    translation = CureEffectiveness,
 }
 
 option ElixirCraftB42.OneCurePerCharacter
@@ -58,7 +58,7 @@ option ElixirCraftB42.OneCurePerCharacter
     type = boolean,
     default = false,
     page = ElixirCraftB42,
-    translation = ElixirCraftB42_OneCurePerCharacter,
+    translation = OneCurePerCharacter,
 }
 
 option ElixirCraftB42.KnoxCureCooldownHours
@@ -68,7 +68,7 @@ option ElixirCraftB42.KnoxCureCooldownHours
     max = 168.0,
     default = 24.0,
     page = ElixirCraftB42,
-    translation = ElixirCraftB42_KnoxCureCooldownHours,
+    translation = KnoxCureCooldownHours,
 }
 
 option ElixirCraftB42.EnableAdrenalineStimulant
@@ -76,7 +76,7 @@ option ElixirCraftB42.EnableAdrenalineStimulant
     type = boolean,
     default = true,
     page = ElixirCraftB42,
-    translation = ElixirCraftB42_EnableAdrenalineStimulant,
+    translation = EnableAdrenalineStimulant,
 }
 
 option ElixirCraftB42.EnableAdrenalineCrafting
@@ -84,7 +84,7 @@ option ElixirCraftB42.EnableAdrenalineCrafting
     type = boolean,
     default = true,
     page = ElixirCraftB42,
-    translation = ElixirCraftB42_EnableAdrenalineCrafting,
+    translation = EnableAdrenalineCrafting,
 }
 
 option ElixirCraftB42.AdrenalineMedicalLevel
@@ -94,7 +94,7 @@ option ElixirCraftB42.AdrenalineMedicalLevel
     max = 10,
     default = 3,
     page = ElixirCraftB42,
-    translation = ElixirCraftB42_AdrenalineMedicalLevel,
+    translation = AdrenalineMedicalLevel,
 }
 
 option ElixirCraftB42.AdrenalineRestorePercent
@@ -104,7 +104,7 @@ option ElixirCraftB42.AdrenalineRestorePercent
     max = 100.0,
     default = 70.0,
     page = ElixirCraftB42,
-    translation = ElixirCraftB42_AdrenalineRestorePercent,
+    translation = AdrenalineRestorePercent,
 }
 
 option ElixirCraftB42.ClearFatigue
@@ -112,7 +112,7 @@ option ElixirCraftB42.ClearFatigue
     type = boolean,
     default = false,
     page = ElixirCraftB42,
-    translation = ElixirCraftB42_ClearFatigue,
+    translation = ClearFatigue,
 }
 
 option ElixirCraftB42.StimulantEffectDurationHours
@@ -122,7 +122,7 @@ option ElixirCraftB42.StimulantEffectDurationHours
     max = 24.0,
     default = 1.0,
     page = ElixirCraftB42,
-    translation = ElixirCraftB42_StimulantEffectDurationHours,
+    translation = StimulantEffectDurationHours,
 }
 
 option ElixirCraftB42.EnableStimulantPostCrash
@@ -130,7 +130,7 @@ option ElixirCraftB42.EnableStimulantPostCrash
     type = boolean,
     default = true,
     page = ElixirCraftB42,
-    translation = ElixirCraftB42_EnableStimulantPostCrash,
+    translation = EnableStimulantPostCrash,
 }
 
 option ElixirCraftB42.StimulantCrashFatigue
@@ -140,7 +140,7 @@ option ElixirCraftB42.StimulantCrashFatigue
     max = 1.0,
     default = 0.35,
     page = ElixirCraftB42,
-    translation = ElixirCraftB42_StimulantCrashFatigue,
+    translation = StimulantCrashFatigue,
 }
 
 option ElixirCraftB42.StimulantOverdoseWindowHours
@@ -150,7 +150,7 @@ option ElixirCraftB42.StimulantOverdoseWindowHours
     max = 168.0,
     default = 12.0,
     page = ElixirCraftB42,
-    translation = ElixirCraftB42_StimulantOverdoseWindowHours,
+    translation = StimulantOverdoseWindowHours,
 }
 
 option ElixirCraftB42.StimulantOverdoseHealthLoss
@@ -160,7 +160,7 @@ option ElixirCraftB42.StimulantOverdoseHealthLoss
     max = 100.0,
     default = 10.0,
     page = ElixirCraftB42,
-    translation = ElixirCraftB42_StimulantOverdoseHealthLoss,
+    translation = StimulantOverdoseHealthLoss,
 }
 
 option ElixirCraftB42.ReturnRejectedStimulant
@@ -168,7 +168,7 @@ option ElixirCraftB42.ReturnRejectedStimulant
     type = boolean,
     default = true,
     page = ElixirCraftB42,
-    translation = ElixirCraftB42_ReturnRejectedStimulant,
+    translation = ReturnRejectedStimulant,
 }
 
 option ElixirCraftB42.AdrenalinePanic
@@ -178,7 +178,7 @@ option ElixirCraftB42.AdrenalinePanic
     max = 100,
     default = 0,
     page = ElixirCraftB42,
-    translation = ElixirCraftB42_AdrenalinePanic,
+    translation = AdrenalinePanic,
 }
 
 option ElixirCraftB42.AdrenalineStress
@@ -188,7 +188,7 @@ option ElixirCraftB42.AdrenalineStress
     max = 1.0,
     default = 0.0,
     page = ElixirCraftB42,
-    translation = ElixirCraftB42_AdrenalineStress,
+    translation = AdrenalineStress,
 }
 
 option ElixirCraftB42.AdrenalineThirst
@@ -198,7 +198,7 @@ option ElixirCraftB42.AdrenalineThirst
     max = 1.0,
     default = 0.0,
     page = ElixirCraftB42,
-    translation = ElixirCraftB42_AdrenalineThirst,
+    translation = AdrenalineThirst,
 }
 
 option ElixirCraftB42.AdrenalineCooldownHours
@@ -208,7 +208,7 @@ option ElixirCraftB42.AdrenalineCooldownHours
     max = 168.0,
     default = 6.0,
     page = ElixirCraftB42,
-    translation = ElixirCraftB42_AdrenalineCooldownHours,
+    translation = AdrenalineCooldownHours,
 }
 
 option ElixirCraftB42.EnableAntibodiesIntegration
@@ -216,7 +216,7 @@ option ElixirCraftB42.EnableAntibodiesIntegration
     type = boolean,
     default = true,
     page = ElixirCraftB42,
-    translation = ElixirCraftB42_EnableAntibodiesIntegration,
+    translation = EnableAntibodiesIntegration,
 }
 
 option ElixirCraftB42.EnableLootSpawns
@@ -224,7 +224,7 @@ option ElixirCraftB42.EnableLootSpawns
     type = boolean,
     default = false,
     page = ElixirCraftB42,
-    translation = ElixirCraftB42_EnableLootSpawns,
+    translation = EnableLootSpawns,
 }
 
 option ElixirCraftB42.LootPharmacies
@@ -232,7 +232,7 @@ option ElixirCraftB42.LootPharmacies
     type = boolean,
     default = true,
     page = ElixirCraftB42,
-    translation = ElixirCraftB42_LootPharmacies,
+    translation = LootPharmacies,
 }
 
 option ElixirCraftB42.LootHospitals
@@ -240,7 +240,7 @@ option ElixirCraftB42.LootHospitals
     type = boolean,
     default = true,
     page = ElixirCraftB42,
-    translation = ElixirCraftB42_LootHospitals,
+    translation = LootHospitals,
 }
 
 option ElixirCraftB42.LootAmbulances
@@ -248,7 +248,7 @@ option ElixirCraftB42.LootAmbulances
     type = boolean,
     default = true,
     page = ElixirCraftB42,
-    translation = ElixirCraftB42_LootAmbulances,
+    translation = LootAmbulances,
 }
 
 option ElixirCraftB42.LootMilitaryMedical
@@ -256,7 +256,7 @@ option ElixirCraftB42.LootMilitaryMedical
     type = boolean,
     default = false,
     page = ElixirCraftB42,
-    translation = ElixirCraftB42_LootMilitaryMedical,
+    translation = LootMilitaryMedical,
 }
 
 option ElixirCraftB42.LootLaboratories
@@ -264,7 +264,7 @@ option ElixirCraftB42.LootLaboratories
     type = boolean,
     default = false,
     page = ElixirCraftB42,
-    translation = ElixirCraftB42_LootLaboratories,
+    translation = LootLaboratories,
 }
 
 option ElixirCraftB42.LootSurvivorCaches
@@ -272,7 +272,7 @@ option ElixirCraftB42.LootSurvivorCaches
     type = boolean,
     default = false,
     page = ElixirCraftB42,
-    translation = ElixirCraftB42_LootSurvivorCaches,
+    translation = LootSurvivorCaches,
 }
 
 option ElixirCraftB42.KnoxCureLootChance
@@ -282,7 +282,7 @@ option ElixirCraftB42.KnoxCureLootChance
     max = 100.0,
     default = 0.05,
     page = ElixirCraftB42,
-    translation = ElixirCraftB42_KnoxCureLootChance,
+    translation = KnoxCureLootChance,
 }
 
 option ElixirCraftB42.AdrenalineLootChance
@@ -292,7 +292,7 @@ option ElixirCraftB42.AdrenalineLootChance
     max = 100.0,
     default = 0.25,
     page = ElixirCraftB42,
-    translation = ElixirCraftB42_AdrenalineLootChance,
+    translation = AdrenalineLootChance,
 }
 
 option ElixirCraftB42.AdminOnlyCrafting
@@ -300,7 +300,7 @@ option ElixirCraftB42.AdminOnlyCrafting
     type = boolean,
     default = false,
     page = ElixirCraftB42,
-    translation = ElixirCraftB42_AdminOnlyCrafting,
+    translation = AdminOnlyCrafting,
 }
 
 option ElixirCraftB42.UsageAnnouncement
@@ -309,7 +309,7 @@ option ElixirCraftB42.UsageAnnouncement
     numValues = 4,
     default = 2,
     page = ElixirCraftB42,
-    translation = ElixirCraftB42_UsageAnnouncement,
+    translation = UsageAnnouncement,
 }
 
 option ElixirCraftB42.UsageAnnouncementCooldownSeconds
@@ -319,7 +319,7 @@ option ElixirCraftB42.UsageAnnouncementCooldownSeconds
     max = 300.0,
     default = 5.0,
     page = ElixirCraftB42,
-    translation = ElixirCraftB42_UsageAnnouncementCooldownSeconds,
+    translation = UsageAnnouncementCooldownSeconds,
 }
 
 option ElixirCraftB42.EnableUsageLogging
@@ -327,7 +327,7 @@ option ElixirCraftB42.EnableUsageLogging
     type = boolean,
     default = true,
     page = ElixirCraftB42,
-    translation = ElixirCraftB42_EnableUsageLogging,
+    translation = EnableUsageLogging,
 }
 
 option ElixirCraftB42.EnableDebugLogging
@@ -335,5 +335,5 @@ option ElixirCraftB42.EnableDebugLogging
     type = boolean,
     default = false,
     page = ElixirCraftB42,
-    translation = ElixirCraftB42_EnableDebugLogging,
+    translation = EnableDebugLogging,
 }

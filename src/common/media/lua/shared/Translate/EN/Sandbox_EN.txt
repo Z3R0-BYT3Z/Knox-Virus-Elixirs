@@ -1,5 +1,5 @@
 Sandbox_EN = {
-    Sandbox_ElixirCraftB42 = "Knox Virus Elixirs",
+    Sandbox_ElixirCraftB42 = "Elixir Crafting",
     Sandbox_ElixirCraftB42_EnableKnoxCure = "Enable Experimental Knox Cure",
     Sandbox_ElixirCraftB42_EnableKnoxCure_tooltip = "Controls consumption of the experimental cure. Antibodies is supported but not required.",
     Sandbox_ElixirCraftB42_EnableKnoxCureCrafting = "Allow players to craft the Knox Cure",

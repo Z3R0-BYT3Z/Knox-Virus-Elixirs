@@ -1,4 +1,4 @@
-KNOX VIRUS ELIXIRS B42 v1.5.1
+KNOX VIRUS ELIXIRS B42 v1.5.2
 ========================================
 
 MOD ID
@@ -55,3 +55,9 @@ NOTES
 - Water is consumed from the selected bottle or mug; the container is retained.
 - Sandbox changes should be made while the server is stopped, then restarted.
 - Test on a staging save before enabling infection curing on a public server.
+
+V1.5.2 AUDIT UPDATE
+- Updated the custom sandbox-options schema marker for current Build 42 parsing.
+- Retained protocol v3 and all existing save, cooldown, treatment, and item identifiers.
+- Audited server-authoritative item validation, rejection recovery, rate limiting,
+  manifests, translations, recipes, textures, and Workshop package structure.
