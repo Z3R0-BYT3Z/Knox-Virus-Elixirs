@@ -1,7 +1,7 @@
 version=1
 id=0
 title=Knox Virus Elixirs
-description=Adds rare configurable medical elixirs for Project Zomboid Build 42. v1.5.1 retains protocol-v3 compatibility checks, administrator-only recipe enforcement, localized rate-limited announcements, server-only loot guards, and authoritative item validation while aligning the package name and version metadata.\n\nMod ID: ElixirCraftB42\nOptional dependency: Antibodies v1.97 — Workshop ID 2392676812
+description=Adds rare configurable medical elixirs for Project Zomboid Build 42. v1.5.2 retains protocol-v3 compatibility checks, administrator-only recipe enforcement, localized rate-limited announcements, server-only loot guards, and authoritative item validation while aligning the package name and version metadata.\n\nMod ID: ElixirCraftB42\nOptional dependency: Antibodies v1.97 — Workshop ID 2392676812
 tags=Build 42;Multiplayer;Items;Medical
 visibility=unlisted
 preview=preview.png
