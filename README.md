@@ -116,7 +116,7 @@ Alternatively, run:
 powershell -ExecutionPolicy Bypass -File .\tools\build-release.ps1
 ```
 
-Then extract `dist\ElixirCraftB42-v1.5.1.zip` into `%USERPROFILE%\Zomboid\mods`.
+Then extract `dist\ElixirCraftB42-v1.5.2.zip` into `%USERPROFILE%\Zomboid\mods`.
 
 ## Steam Workshop package
 
@@ -182,7 +182,7 @@ Before publishing a stable release, verify:
 15. Loot rolls occur once on the server and never from a client Lua context.
 16. `console.txt` contains no Lua exceptions or repeated warnings.
 
-The repository does not include Project Zomboid's timed-action implementation, so v1.5.1 deliberately keeps the verified vanilla `Food`/`EatType` animation hook. Treatment is granted only when the server can locate the submitted item ID and matching full type. Test this transaction on the target Build 42 server before public deployment; an unresolved or already-missing item is rejected without granting an effect.
+The repository does not include Project Zomboid's timed-action implementation, so v1.5.2 deliberately keeps the verified vanilla `Food`/`EatType` animation hook. Treatment is granted only when the server can locate the submitted item ID and matching full type. Test this transaction on the target Build 42 server before public deployment; an unresolved or already-missing item is rejected without granting an effect.
 
 Please attach relevant `console.txt` excerpts and reproduction steps to bug reports.
 
