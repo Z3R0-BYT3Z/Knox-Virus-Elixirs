@@ -12,5 +12,5 @@ ContextMenu_EN = {
     ContextMenu_ElixirCraft_RemoveWell = "Admin: Remove Healing Effect",
     ContextMenu_ElixirCraft_DesignateWell = "Admin: Create Healing Elixir Well",
     ContextMenu_ElixirCraft_WellUnlimited = "Supply: Unlimited",
-    ContextMenu_ElixirCraft_WellFullRecovery = "Full recovery: injuries, bites and infections",
+    ContextMenu_ElixirCraft_WellFullRecovery = "Full recovery: health, infections, hunger, calories and endurance",
 }

@@ -1,7 +1,7 @@
 version=1
 id=0
 title=Knox Virus Elixirs
-description=Configurable Knox Cure and Adrenaline Stimulant for Build 42.20, now with admin-designated healing elixir wells, unlimited supply, guaranteed full health/wound/bite/infection recovery and no well cooldown. v1.6.1 uses native server-completed timed actions for treatments.\n\nMod ID: ElixirCraftB42\nOptional dependency: Antibodies v1.97 - Workshop ID 2392676812
+description=Configurable Knox Cure and Adrenaline Stimulant for Build 42.20, now with admin-designated healing elixir wells, unlimited supply, guaranteed full health/wound/bite/infection recovery and no well cooldown. v1.6.2 uses native server-completed timed actions for treatments.\n\nMod ID: ElixirCraftB42\nOptional dependency: Antibodies v1.97 - Workshop ID 2392676812
 tags=Build 42;Multiplayer;Items;Medical
 visibility=public
 preview=preview.png

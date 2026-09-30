@@ -90,12 +90,16 @@ local function player(role)
         self.health=100
     end
     p.damage=damage
-    local stats={Endurance=.2,Fatigue=.8,Panic=0,Stress=0,Thirst=.2}
-    for _,name in ipairs({'Endurance','Fatigue','Panic','Stress','Thirst'}) do
+    local stats={Endurance=.2,Fatigue=.8,Panic=0,Stress=0,Thirst=.2,Hunger=.9}
+    for _,name in ipairs({'Endurance','Fatigue','Panic','Stress','Thirst','Hunger'}) do
         stats['get'..name]=function(self) return self[name] end
         stats['set'..name]=function(self,v) self[name]=v end
     end
     function stats:setEnduranceRecharging() end
+    local nutrition = {calories=-1000}
+    function nutrition:getCalories() return self.calories end
+    function nutrition:setCalories(v) self.calories=v end
+    function p:getNutrition() return nutrition end
     function p:getStats() return stats end
     function p:getModData() return self.md end
     function p:getInventory() return self.inv end
@@ -430,4 +434,35 @@ test('unlimited full recovery menu hides refills and charges',function()
     assert(labels.ContextMenu_ElixirCraft_WellUnlimited and labels.ContextMenu_ElixirCraft_WellFullRecovery)
     assert(not labels.ContextMenu_ElixirCraft_RefillWell and not labels.ContextMenu_ElixirCraft_AdminRechargeWell)
     assert(not labels.ContextMenu_ElixirCraft_WellCharges)
+end)
+
+test('full well replenishes survival stats without stimulant penalties',function()
+    opts.WellUnlimitedSupply=true;opts.WellFullRecovery=true
+    local p=player();p.md.ElixirCraftB42={lastAdrenalineUse=CLOCK,lastKnoxCureUse=CLOCK}
+    local ok,_,d=ElixirWell.Drink(p,well());assert(ok)
+    local st=p:getStats()
+    assert(st:getHunger()==0 and st:getThirst()==0 and st:getFatigue()==0 and st:getEndurance()==1)
+    assert(p:getNutrition():getCalories()==2500 and d.caloriesAfter==2500)
+    assert(p.damage:getOverallBodyHealth()==100)
+    assert(p.md.ElixirCraftB42.lastAdrenalineUse==CLOCK and p.md.ElixirCraftB42.lastKnoxCureUse==CLOCK)
+end)
+test('repeat well calories do not stack or reduce higher reserves',function()
+    opts.WellUnlimitedSupply=true;opts.WellFullRecovery=true
+    local p,o=player(),well();assert(ElixirWell.Drink(p,o));assert(ElixirWell.Drink(p,o))
+    assert(p:getNutrition():getCalories()==2500)
+    p:getNutrition():setCalories(3000);assert(ElixirWell.Drink(p,o))
+    assert(p:getNutrition():getCalories()==3000)
+end)
+test('partial well leaves hunger calories and endurance unchanged',function()
+    local p=player();assert(ElixirWell.Drink(p,well()))
+    assert(p:getStats():getHunger()==.9 and p:getStats():getEndurance()==.2)
+    assert(p:getNutrition():getCalories()==-1000)
+end)
+test('full well client synchronization is idempotent',function()
+    local p=player();CLIENT=true;SERVER=false
+    local d={fullRecovery=true,caloriesAfter=3000,unlimited=true}
+    ElixirConsumption.HandleResult('WellApplied',d,p)
+    ElixirConsumption.HandleResult('WellApplied',d,p)
+    assert(p:getNutrition():getCalories()==3000 and p:getStats():getHunger()==0)
+    assert(p:getStats():getEndurance()==1 and p:getStats():getFatigue()==0)
 end)

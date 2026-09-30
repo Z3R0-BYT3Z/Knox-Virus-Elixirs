@@ -83,5 +83,5 @@ Sandbox_EN = {
     Sandbox_ElixirCraftB42_WellUnlimitedSupply = "Unlimited well supply",
     Sandbox_ElixirCraftB42_WellUnlimitedSupply_tooltip = "Healing wells never run out. No refills are needed; existing saved charges are retained for optional limited mode.",
     Sandbox_ElixirCraftB42_WellFullRecovery = "Well grants guaranteed full recovery",
-    Sandbox_ElixirCraftB42_WellFullRecovery_tooltip = "Each completed drink fully restores health and clears injuries, bites, wound infections and Knox infection using the full elixir restoration path. Independent of bottled treatment cooldowns, chance rolls, enabled state and one-cure limits.",
+    Sandbox_ElixirCraftB42_WellFullRecovery_tooltip = "Each completed drink fully restores health and clears injuries, bites, wound infections and Knox infection using the full elixir restoration path. Also clears hunger, thirst and fatigue, restores endurance to 100%, and replenishes calorie reserves to at least 2,500 without stacking. Independent of bottled treatment cooldowns, chance rolls, enabled state and one-cure limits.",
 }

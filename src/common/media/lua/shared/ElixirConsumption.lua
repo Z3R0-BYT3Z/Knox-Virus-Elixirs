@@ -140,6 +140,26 @@ function ElixirConsumption.RestoreFully(player)
     return provider
 end
 
+-- Well-only survival restoration. Set reserves instead of adding a dose, so
+-- unlimited drinks cannot stack calories or invoke bottled stimulant penalties.
+function ElixirConsumption.RestoreWellSurvival(player, caloriesAfter)
+    local stats = player:getStats()
+    stats:setHunger(0)
+    stats:setThirst(0)
+    stats:setFatigue(0)
+    stats:setEndurance(1)
+    stats:setEnduranceRecharging(false)
+    local nutrition = player:getNutrition()
+    local calories = tonumber(caloriesAfter)
+    if not calories then
+        local current = tonumber(nutrition:getCalories()) or 0
+        if current ~= current then current = 0 end
+        calories = math.max(2500, current)
+    end
+    nutrition:setCalories(calories)
+    return calories
+end
+
 local function effectivenessSucceeded()
     local effectiveness = math.max(1, math.min(100,
         tonumber(setting("CureEffectiveness", 100.0)) or 100.0))
@@ -390,6 +410,9 @@ function ElixirConsumption.HandleResult(command, args, player)
         end
     elseif command == "WellApplied" then
         if isClient() then
+            if args.fullRecovery == true and tonumber(args.caloriesAfter) then
+                ElixirConsumption.RestoreWellSurvival(player, tonumber(args.caloriesAfter))
+            end
             local damage, parts = bodyParts(player)
             if damage then
                 if args.curedKnox == true then

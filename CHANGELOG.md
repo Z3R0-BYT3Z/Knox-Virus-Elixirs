@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.6.2] - 2026-09-30 (test candidate)
+
+- Full-recovery wells now clear hunger, thirst and fatigue and restore endurance to 100%.
+- Replenish calories to at least 2,500, preserving higher reserves without repeated-drink stacking.
+- Synchronize survival recovery to the drinking client; keep bottled cooldowns and partial well mode unchanged.
+- Added four targeted regression cases.
+
 ## [1.6.1] - 2026-09-30 (test candidate)
 
 - Default healing well supply is unlimited, including existing empty wells.

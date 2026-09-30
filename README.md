@@ -1,4 +1,4 @@
-# Knox Virus Elixirs v1.6.1 — healing well test candidate
+# Knox Virus Elixirs v1.6.2 — healing well test candidate
 
 Adds Experimental Knox Cure, Adrenaline Stimulant and administrator-designated healing elixir wells to Project Zomboid Build 42.20. This candidate is based on GitHub commit `05350a3471bf18a9866e04b733b94f5e9df76c2e` of Z3R0-BYT3Z/Knox-Virus-Elixirs.
 
@@ -31,7 +31,7 @@ The former WellCooldownHours option was removed and old saved values are ignored
 
 Optional limited/partial modes are retained: disable WellUnlimitedSupply to use the saved 20-capacity/5-initial-charge pool and donate cures for 5 charges each. Disable WellFullRecovery to use WellHealAmount (25), WellHealWounds (false), and WellCuresKnox (false). WellCuresKnox=true grants guaranteed full restoration independently of bottle eligibility. These optional modes also have no well cooldown.
 
-Full recovery targets health, injuries and infection as the original scope-4 elixir does; it does not refill food or calories, remove traits, or grant the stimulant's endurance effect. Antibodies integration still follows EnableAntibodiesIntegration.
+Full recovery also clears hunger, thirst and fatigue, restores endurance to 100%, and replenishes calorie reserves to at least 2,500. Higher calorie reserves are retained and repeated drinks do not stack calories. It does not change weight or traits, trigger stimulant overdose/crash, or reset bottled treatment cooldowns. Antibodies integration still follows EnableAntibodiesIntegration.
 
 ## Bottled treatments
 
