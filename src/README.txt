@@ -1,4 +1,4 @@
-# Knox Virus Elixirs v1.6.2 — healing well test candidate
+# Knox Virus Elixirs v1.6.3 — healing well test candidate
 
 Adds Experimental Knox Cure, Adrenaline Stimulant and administrator-designated healing elixir wells to Project Zomboid Build 42.20. This candidate is based on GitHub commit `05350a3471bf18a9866e04b733b94f5e9df76c2e` of Z3R0-BYT3Z/Knox-Virus-Elixirs.
 
@@ -35,13 +35,15 @@ Full recovery also clears hunger, thirst and fatigue, restores endurance to 100%
 
 ## Bottled treatments
 
+Every successful Experimental Knox Cure now provides the same all-in-one recovery as the full-recovery well: health, wounds, bites, infections, hunger, thirst, fatigue, full endurance and calorie reserves of at least 2,500 (higher reserves retained). The former CureTreatmentScope setting is removed and saved partial values are ignored. The default 24-game-hour cure cooldown, 100% effectiveness, crafting requirements and optional one-cure policy remain. Stimulant behavior is unchanged.
+
 Right-click a bottle in your own inventory and select **Use Experimental Knox Cure** or **Use Adrenaline Stimulant**. Items in your carried bags are supported. The full dose is used only when the native timed action completes. Cancelling an action consumes nothing.
 
 The original `ElixirCraft.KnoxCure` and `ElixirCraft.StaminaElixir` item IDs and Food save classes remain unchanged. `CantEat=TRUE` hides ordinary food consumption; there are no OnEat treatment callbacks. No vanilla timed-action file is overridden.
 
 Default rejections keep the bottle. `ConsumeCureOnFailedUse=true` consumes a rejected/ineffective cure. `ReturnRejectedStimulant=false` consumes a rejected stimulant. A treatment exception does not refund an item or charge because effects may already have partially changed; the error is logged for an administrator to investigate.
 
-The original craftRecipe ingredients, optional Antibodies integration, cure scopes, stamina effects, one-cure policy, loot settings and existing state keys remain in use. Administrator-only crafting now means the exact `admin` access level; moderators do not qualify.
+The original craftRecipe ingredients, optional Antibodies integration, stamina effects, one-cure policy, loot settings and existing state keys remain in use. Administrator-only crafting now means the exact `admin` access level; moderators do not qualify.
 
 ## Multiplayer and persistence
 

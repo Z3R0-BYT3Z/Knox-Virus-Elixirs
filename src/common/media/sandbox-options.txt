@@ -34,15 +34,6 @@ option ElixirCraftB42.ConsumeCureOnFailedUse
     translation = ConsumeCureOnFailedUse,
 }
 
-option ElixirCraftB42.CureTreatmentScope
-{
-    type = enum,
-    numValues = 4,
-    default = 2,
-    page = ElixirCraftB42,
-    translation = CureTreatmentScope,
-}
-
 option ElixirCraftB42.CureEffectiveness
 {
     type = double,

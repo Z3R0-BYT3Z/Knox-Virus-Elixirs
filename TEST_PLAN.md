@@ -1,4 +1,4 @@
-# In-game acceptance checklist — v1.6.2 candidate
+# In-game acceptance checklist — v1.6.3 candidate
 
 Automated validation does not execute Project Zomboid. Complete these checks on a test copy of your exact server build before uploading the public update.
 
@@ -24,3 +24,5 @@ Automated validation does not execute Project Zomboid. Complete these checks on 
 No Steam upload, GitHub push or live-server installation is performed by this package.
 
 19. Test a starving, exhausted character with negative calorie reserves. A full-recovery well must set hunger/thirst/fatigue to zero, endurance to 100%, and calories to 2,500. Repeated drinks must not stack calories; higher reserves must be preserved. Confirm these values on the drinking client after server completion and reconnect. Partial mode must leave these survival stats unchanged.
+
+20. Use a bottled cure with legacy CureTreatmentScope=1: confirm full health, infection and survival recovery on the server and drinking client. Try another bottle within 24 game hours: it must remain in inventory without applying effects. Confirm stimulant behavior is unchanged.

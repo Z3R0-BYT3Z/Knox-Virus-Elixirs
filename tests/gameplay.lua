@@ -466,3 +466,29 @@ test('full well client synchronization is idempotent',function()
     assert(p:getNutrition():getCalories()==3000 and p:getStats():getHunger()==0)
     assert(p:getStats():getEndurance()==1 and p:getStats():getFatigue()==0)
 end)
+
+test('bottled cure ignores legacy partial scope and fully recovers',function()
+    local p=player();opts.CureTreatmentScope=1
+    p.md.ElixirCraftB42={lastAdrenalineUse=CLOCK}
+    local ok,_,d=ElixirConsumption.CommitBottle(p,item(p.inv),'KnoxCure');assert(ok)
+    assert(p.damage:getOverallBodyHealth()==100 and not p.damage.infected and not p.damage.parts[1].bite)
+    assert(p:getStats():getHunger()==0 and p:getStats():getThirst()==0)
+    assert(p:getStats():getFatigue()==0 and p:getStats():getEndurance()==1)
+    assert(p:getNutrition():getCalories()==2500)
+    assert(p.md.ElixirCraftB42.lastKnoxCureUse==CLOCK and p.md.ElixirCraftB42.lastAdrenalineUse==CLOCK)
+    opts.CureTreatmentScope=nil
+end)
+test('all-in-one bottle still observes cooldown and retains rejected dose',function()
+    local p=player();assert(ElixirConsumption.CommitBottle(p,item(p.inv),'KnoxCure'))
+    local i=item(p.inv);p:getStats():setHunger(.8)
+    assert(not ElixirConsumption.CommitBottle(p,i,'KnoxCure'))
+    assert(p.inv:contains(i) and p:getStats():getHunger()==.8)
+end)
+test('all-in-one bottle client synchronization does not stack calories',function()
+    local p=player();CLIENT=true;SERVER=false
+    local d={treatment='KnoxCure',scope=4,fullRecovery=true,caloriesAfter=2500,healthAfter=100}
+    ElixirConsumption.HandleResult('TreatmentApplied',d,p)
+    ElixirConsumption.HandleResult('TreatmentApplied',d,p)
+    assert(p:getNutrition():getCalories()==2500 and p:getStats():getEndurance()==1)
+    assert(p:getStats():getHunger()==0 and p.damage:getOverallBodyHealth()==100)
+end)

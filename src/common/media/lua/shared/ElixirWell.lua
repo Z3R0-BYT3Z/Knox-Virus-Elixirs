@@ -178,7 +178,7 @@ function ElixirWell.Drink(player, object)
     if setting("WellFullRecovery", true) then
         detail.provider = ElixirConsumption.RestoreFully(player)
         detail.curedKnox, detail.healWounds, detail.cureScope = true, true, 4
-        detail.caloriesAfter = ElixirConsumption.RestoreWellSurvival(player)
+        detail.caloriesAfter = ElixirConsumption.RestoreSurvival(player)
         detail.fullRecovery = true
         detail.healAmount = 100
     elseif setting("WellCuresKnox", false) then

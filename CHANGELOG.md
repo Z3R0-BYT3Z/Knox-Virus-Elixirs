@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.6.3] - 2026-09-30 (test candidate)
+
+- Every successful bottled Knox Cure now provides the same all-in-one health and survival recovery as the full-recovery well.
+- Removed partial cure scope selection; saved partial settings are ignored.
+- Preserve cure cooldown, effectiveness and crafting policy. Stimulant behavior is unchanged.
+- Added three targeted regression cases.
+
 ## [1.6.2] - 2026-09-30 (test candidate)
 
 - Full-recovery wells now clear hunger, thirst and fatigue and restore endurance to 100%.

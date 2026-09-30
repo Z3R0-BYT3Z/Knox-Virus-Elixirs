@@ -140,9 +140,9 @@ function ElixirConsumption.RestoreFully(player)
     return provider
 end
 
--- Well-only survival restoration. Set reserves instead of adding a dose, so
--- unlimited drinks cannot stack calories or invoke bottled stimulant penalties.
-function ElixirConsumption.RestoreWellSurvival(player, caloriesAfter)
+-- Shared all-in-one survival restoration. Set reserves instead of adding a
+-- dose, so repeat treatments cannot stack calories or invoke stimulant penalties.
+function ElixirConsumption.RestoreSurvival(player, caloriesAfter)
     local stats = player:getStats()
     stats:setHunger(0)
     stats:setThirst(0)
@@ -230,25 +230,17 @@ function ElixirConsumption.ApplyTreatment(player, treatment)
         local damage, parts = bodyParts(player)
         if not damage then return false, "no-body-damage" end
         if not effectivenessSucceeded() then return false, "effectiveness-failed" end
-        local provider = cureKnoxInfection(player)
-        local scope = math.max(1, math.min(4,
-            tonumber(setting("CureTreatmentScope", 2)) or 2))
-        if scope >= 2 then clearBites(parts) end
-        if scope >= 3 then
-            clearWoundInfections(parts)
-            restoreBodyParts(parts)
-        end
-        if scope >= 4 then
-            damage:RestoreToFullHealth()
-            damage:setOverallBodyHealth(100.0)
-        end
+        -- Every successful cure is all-in-one. Ignore legacy partial scopes.
+        local provider = ElixirConsumption.RestoreFully(player)
+        local caloriesAfter = ElixirConsumption.RestoreSurvival(player)
         local state = stateFor(player)
         state.lastKnoxCureUse = worldHours()
         -- IsoPlayer modData is character-scoped and persists across relogs.
         state.successfulKnoxCure = true
         state.successfulKnoxCureAt = state.lastKnoxCureUse
         logUse(player, treatment, provider)
-        return true, provider, { scope = scope, healthAfter = damage:getOverallBodyHealth() }
+        return true, provider, { scope = 4, fullRecovery = true, caloriesAfter = caloriesAfter,
+            healthAfter = damage:getOverallBodyHealth() }
     end
 
     if treatment == "AdrenalineStimulant" then
@@ -365,6 +357,9 @@ function ElixirConsumption.HandleResult(command, args, player)
         -- Exact server-calculated after-values prevent additive effects from
         -- being applied twice when multiplayer state synchronization catches up.
         if isClient() and args.treatment == "KnoxCure" then
+            if args.fullRecovery == true and tonumber(args.caloriesAfter) then
+                ElixirConsumption.RestoreSurvival(player, tonumber(args.caloriesAfter))
+            end
             local damage, parts = bodyParts(player)
             if damage then
                 cureKnoxInfection(player)
@@ -411,7 +406,7 @@ function ElixirConsumption.HandleResult(command, args, player)
     elseif command == "WellApplied" then
         if isClient() then
             if args.fullRecovery == true and tonumber(args.caloriesAfter) then
-                ElixirConsumption.RestoreWellSurvival(player, tonumber(args.caloriesAfter))
+                ElixirConsumption.RestoreSurvival(player, tonumber(args.caloriesAfter))
             end
             local damage, parts = bodyParts(player)
             if damage then
