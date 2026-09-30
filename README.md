@@ -1,4 +1,4 @@
-# Knox Virus Elixirs v1.6.3 — healing well test candidate
+# Knox Virus Elixirs v1.6.4 — healing well test candidate
 
 Adds Experimental Knox Cure, Adrenaline Stimulant and administrator-designated healing elixir wells to Project Zomboid Build 42.20. This candidate is based on GitHub commit `05350a3471bf18a9866e04b733b94f5e9df76c2e` of Z3R0-BYT3Z/Knox-Virus-Elixirs.
 
@@ -31,11 +31,11 @@ The former WellCooldownHours option was removed and old saved values are ignored
 
 Optional limited/partial modes are retained: disable WellUnlimitedSupply to use the saved 20-capacity/5-initial-charge pool and donate cures for 5 charges each. Disable WellFullRecovery to use WellHealAmount (25), WellHealWounds (false), and WellCuresKnox (false). WellCuresKnox=true grants guaranteed full restoration independently of bottle eligibility. These optional modes also have no well cooldown.
 
-Full recovery also clears hunger, thirst and fatigue, restores endurance to 100%, and replenishes calorie reserves to at least 2,500. Higher calorie reserves are retained and repeated drinks do not stack calories. It does not change weight or traits, trigger stimulant overdose/crash, or reset bottled treatment cooldowns. Antibodies integration still follows EnableAntibodiesIntegration.
+Full recovery also clears hunger, thirst, fatigue, boredom and unhappiness, restores endurance to 100%, and replenishes calorie reserves to at least 2,500. Higher calorie reserves are retained and repeated drinks do not stack calories. It does not change weight or traits, trigger stimulant overdose/crash, or reset bottled treatment cooldowns. Antibodies integration still follows EnableAntibodiesIntegration.
 
 ## Bottled treatments
 
-Every successful Experimental Knox Cure now provides the same all-in-one recovery as the full-recovery well: health, wounds, bites, infections, hunger, thirst, fatigue, full endurance and calorie reserves of at least 2,500 (higher reserves retained). The former CureTreatmentScope setting is removed and saved partial values are ignored. The default 24-game-hour cure cooldown, 100% effectiveness, crafting requirements and optional one-cure policy remain. Stimulant behavior is unchanged.
+Every successful Experimental Knox Cure now provides the same all-in-one recovery as the full-recovery well: health, wounds, bites, infections, hunger, thirst, fatigue, boredom, unhappiness, full endurance and calorie reserves of at least 2,500 (higher reserves retained). The former CureTreatmentScope setting is removed and saved partial values are ignored. The default 24-game-hour cure cooldown, 100% effectiveness, crafting requirements and optional one-cure policy remain. Stimulant behavior is unchanged.
 
 Right-click a bottle in your own inventory and select **Use Experimental Knox Cure** or **Use Adrenaline Stimulant**. Items in your carried bags are supported. The full dose is used only when the native timed action completes. Cancelling an action consumes nothing.
 

@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.6.4] - 2026-09-30 (test candidate)
+
+- Full-recovery wells and bottled cures also reset boredom and unhappiness to zero.
+- Support both modern CharacterStat setters and older stat/body-damage setters for the six requested recovery stats.
+- Preserve stimulant behavior and bottle cooldowns. Added three targeted regression cases.
+
 ## [1.6.3] - 2026-09-30 (test candidate)
 
 - Every successful bottled Knox Cure now provides the same all-in-one health and survival recovery as the full-recovery well.

@@ -143,12 +143,22 @@ end
 -- Shared all-in-one survival restoration. Set reserves instead of adding a
 -- dose, so repeat treatments cannot stack calories or invoke stimulant penalties.
 function ElixirConsumption.RestoreSurvival(player, caloriesAfter)
-    local stats = player:getStats()
-    stats:setHunger(0)
-    stats:setThirst(0)
-    stats:setFatigue(0)
-    stats:setEndurance(1)
-    stats:setEnduranceRecharging(false)
+    local stats, damage = player:getStats(), player:getBodyDamage()
+    local function resetStat(name, value, legacyMethod, legacyOwner)
+        if CharacterStat and CharacterStat[name] and stats.set then
+            stats:set(CharacterStat[name], value)
+        else
+            local owner = legacyOwner or stats
+            owner[legacyMethod](owner, value)
+        end
+    end
+    resetStat("HUNGER", 0, "setHunger")
+    resetStat("THIRST", 0, "setThirst")
+    resetStat("FATIGUE", 0, "setFatigue")
+    resetStat("ENDURANCE", 1, "setEndurance")
+    resetStat("BOREDOM", 0, "setBoredomLevel", damage)
+    resetStat("UNHAPPINESS", 0, "setUnhappynessLevel", damage)
+    if stats.setEnduranceRecharging then stats:setEnduranceRecharging(false) end
     local nutrition = player:getNutrition()
     local calories = tonumber(caloriesAfter)
     if not calories then

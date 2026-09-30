@@ -77,7 +77,9 @@ local id=0
 local function player(role)
     id=id+1
     local p={isPlayer=true,md={},inv=inventory(),sq=square(10,9,0),dead=false,role=role or "none",id=id}
-    local damage={parts={part(50,true),part(60,false)},health=55,infected=true}
+    local damage={boredom=80,unhappiness=90,parts={part(50,true),part(60,false)},health=55,infected=true}
+    function damage:setBoredomLevel(v) self.boredom=v end
+    function damage:setUnhappynessLevel(v) self.unhappiness=v end
     function damage:getBodyParts() return list(self.parts) end
     function damage:calculateOverallHealth() self.health=(self.parts[1].health+self.parts[2].health)/2 end
     function damage:getOverallBodyHealth() return self.health end
@@ -491,4 +493,29 @@ test('all-in-one bottle client synchronization does not stack calories',function
     ElixirConsumption.HandleResult('TreatmentApplied',d,p)
     assert(p:getNutrition():getCalories()==2500 and p:getStats():getEndurance()==1)
     assert(p:getStats():getHunger()==0 and p.damage:getOverallBodyHealth()==100)
+end)
+
+test('cure and full well clear boredom and unhappiness',function()
+    local p=player();assert(ElixirConsumption.CommitBottle(p,item(p.inv),'KnoxCure'))
+    assert(p.damage.boredom==0 and p.damage.unhappiness==0)
+    opts.WellFullRecovery=true;opts.WellUnlimitedSupply=true
+    p=player();assert(ElixirWell.Drink(p,well()))
+    assert(p.damage.boredom==0 and p.damage.unhappiness==0)
+end)
+test('client full recovery clears mood stats for both treatments',function()
+    CLIENT=true;SERVER=false
+    for _,command in ipairs({'TreatmentApplied','WellApplied'}) do
+        local p=player()
+        ElixirConsumption.HandleResult(command,{treatment='KnoxCure',scope=4,fullRecovery=true,caloriesAfter=2500},p)
+        assert(p.damage.boredom==0 and p.damage.unhappiness==0)
+    end
+end)
+test('modern CharacterStat interface resets the six requested stats',function()
+    CharacterStat={HUNGER='hunger',THIRST='thirst',FATIGUE='fatigue',ENDURANCE='endurance',BOREDOM='boredom',UNHAPPINESS='unhappiness'}
+    local p=player();local values={}
+    function p:getStats() return {set=function(_,key,value) values[key]=value end} end
+    ElixirConsumption.RestoreSurvival(p)
+    assert(values.hunger==0 and values.thirst==0 and values.fatigue==0)
+    assert(values.endurance==1 and values.boredom==0 and values.unhappiness==0)
+    CharacterStat=nil
 end)
