@@ -1,199 +1,86 @@
-# Knox Virus Elixirs
+# Knox Virus Elixirs v1.6.1 — healing well test candidate
 
-A lightweight Project Zomboid Build 42 mod that adds two configurable emergency treatments for single-player and multiplayer:
+Adds Experimental Knox Cure, Adrenaline Stimulant and administrator-designated healing elixir wells to Project Zomboid Build 42.20. This candidate is based on GitHub commit `05350a3471bf18a9866e04b733b94f5e9df76c2e` of Z3R0-BYT3Z/Knox-Virus-Elixirs.
 
-- **Experimental Knox Cure** — removes the Knox infection when its configurable effectiveness roll succeeds, with four selectable treatment scopes.
-- **Adrenaline Stimulant** — restores endurance and optionally clears fatigue.
+This package has passed static checks and mocked Lua 5.1 gameplay tests. It has NOT been run inside Project Zomboid. Test native timed-action serialization, animations, inventory synchronization and persistence on your target build before publishing.
 
-The cure integrates with **Antibodies v1.97** when it is installed. Antibodies remains the condition-based recovery path, while the Experimental Knox Cure provides a rare configurable alternative.
+## Healing well setup
 
-## Features
+1. Enable the mod and `Enable healing wells`. Restart after installing this candidate.
+2. Log in with the actual `admin` access level (single-player permits the local player).
+3. Stand next to an existing vanilla well, or place one with the game's admin/debug tools. Compatible static water sources may also be designated.
+4. Right-click and choose **Admin: Create Healing Elixir Well**; wait for completion.
+5. Players select **Healing Elixir Well → Drink Healing Elixir**.
 
-- Native Build 42 `craftRecipe` formatting
-- Build 42 versioned mod structure
-- Optional Antibodies v1.97 integration
-- Configurable crafting availability
-- Configurable cure effectiveness and treatment scope
-- Optional one-successful-cure-per-character limit
-- Persistent per-character cooldowns
-- Configurable stamina restoration
-- Optional fatigue removal
-- Delayed fatigue crash and safe repeated-use overdose damage
-- Server-authoritative multiplayer treatment results
-- One vanilla bottle-drinking consumption path with exact item-ID validation
-- Protocol-v3 compatibility handshake with automatic retry
-- Server-only, idempotent rare-loot registration
-- Localized treatment announcements with spam cooldown
-- Server-console usage logging
-- English localization
-- Custom inventory icons and Workshop artwork
-- No overrides of vanilla or Antibodies files
+Default behavior is **unlimited supply, guaranteed full health recovery, and no cooldown**. Each completed drink clears injuries, bites, wound infections and Knox infection, following the existing elixir's full-restoration path. The well does not inherit a bottle's effectiveness roll, cooldown, enabled flag, or one-cure limit, and it never changes bottle/stimulant cooldown timestamps. Existing saved well cooldown values are ignored.
 
-## Compatibility
+No refill is needed. Refill and recharge controls are hidden in unlimited mode. Existing wells, even ones with zero saved charges, work after updating. The original charge pool is retained in case you explicitly select limited mode later.
 
-| Component | Status |
-|---|---|
-| Project Zomboid Build 42.20 | Supported |
-| Single-player | Supported |
-| Multiplayer | Supported; server-authoritative validation |
-| Antibodies v1.97 | Optional integration |
-| Survivor League / Meeks Protocol | Separate namespace; no file overrides |
+The existing well sprite remains unchanged. There is no automatic well spawn or construction recipe. Ordinary water drinking/filling remains independent of healing. Administrator removal only removes the healing effect, not the physical water source.
 
-Antibodies is available at [Steam Workshop item 2392676812](https://steamcommunity.com/sharedfiles/filedetails/?id=2392676812).
+## Well settings
 
-The add-on calls Antibodies' own cure routine when its module is available. If Antibodies is absent, it uses the native Project Zomboid infection fields.
+| Setting | Default | Meaning |
+|---|---:|---|
+| EnableHealingWell | true | Enable the feature |
+| WellUnlimitedSupply | true | Never deplete or require refills |
+| WellFullRecovery | true | Guaranteed full elixir-scope health, wound, bite and infection recovery |
+| WellActionTime | 120 | Base drinking time in game action ticks |
 
-## Item IDs
+The former WellCooldownHours option was removed and old saved values are ignored. Players can start another drink immediately after the previous action finishes.
 
-```text
-ElixirCraft.KnoxCure
-ElixirCraft.StaminaElixir
-```
+Optional limited/partial modes are retained: disable WellUnlimitedSupply to use the saved 20-capacity/5-initial-charge pool and donate cures for 5 charges each. Disable WellFullRecovery to use WellHealAmount (25), WellHealWounds (false), and WellCuresKnox (false). WellCuresKnox=true grants guaranteed full restoration independently of bottle eligibility. These optional modes also have no well cooldown.
 
-Admin examples:
+Full recovery targets health, injuries and infection as the original scope-4 elixir does; it does not refill food or calories, remove traits, or grant the stimulant's endurance effect. Antibodies integration still follows EnableAntibodiesIntegration.
 
-```text
-additem "Username" "ElixirCraft.KnoxCure" 1
-additem "Username" "ElixirCraft.StaminaElixir" 1
-```
+## Bottled treatments
 
-## Recipes
+Right-click a bottle in your own inventory and select **Use Experimental Knox Cure** or **Use Adrenaline Stimulant**. Items in your carried bags are supported. The full dose is used only when the native timed action completes. Cancelling an action consumes nothing.
 
-### Experimental Knox Cure
+The original `ElixirCraft.KnoxCure` and `ElixirCraft.StaminaElixir` item IDs and Food save classes remain unchanged. `CantEat=TRUE` hides ordinary food consumption; there are no OnEat treatment callbacks. No vanilla timed-action file is overridden.
 
-- 0.5 L water in a water bottle or white mug
-- 5 Plantain
-- 5 Ginseng
-- 1 Antibiotics
+Default rejections keep the bottle. `ConsumeCureOnFailedUse=true` consumes a rejected/ineffective cure. `ReturnRejectedStimulant=false` consumes a rejected stimulant. A treatment exception does not refund an item or charge because effects may already have partially changed; the error is logged for an administrator to investigate.
 
-### Adrenaline Stimulant
+The original craftRecipe ingredients, optional Antibodies integration, cure scopes, stamina effects, one-cure policy, loot settings and existing state keys remain in use. Administrator-only crafting now means the exact `admin` access level; moderators do not qualify.
 
-- 0.5 L water in a water bottle or white mug
-- 5 Ginseng
+## Multiplayer and persistence
 
-The water is consumed while the container is retained.
+Protocol 4 replaces protocol 3. Every client and the server must update together and reconnect. Old instant UseTreatment commands are rejected without applying effects.
 
-## Sandbox settings
+Actions use the B42 shared ISBaseTimedAction pattern: client perform() only advances its queue, server/single-player complete() validates and changes gameplay state. Object proximity, Z level, blocked/window access, limited-mode charge counts, item ownership and admin privileges are checked before a well transaction. Durations are calculated from server settings, not constructor-supplied timing.
 
-- Enable Experimental Knox Cure
-- Allow players to craft the Knox Cure
-- Knox Cure minimum First Aid level
-- Consume cure when treatment fails
-- Cure treatment scope: infection only; infection and bites; all wounds and infection; or full restoration
-- Cure effectiveness percentage
-- Optional one successful cure per character
-- Knox Cure cooldown in in-game hours
-- Enable Adrenaline Stimulant
-- Allow players to craft the Adrenaline Stimulant
-- Adrenaline minimum First Aid level
-- Adrenaline endurance restoration percentage
-- Remove fatigue after stimulant use
-- Stimulant duration, delayed fatigue crash, and crash severity
-- Overdose window and non-lethal health loss
-- Return rejected stimulant
-- Panic, stress, and thirst side effects
-- Adrenaline cooldown in in-game hours
-- Optional Antibodies integration
-- Medical loot locations and spawn chances
-- Admin-only crafting and treatment-use announcements
-- Treatment-use announcement cooldown
-- Usage and diagnostic logging
+Authoritative well records live in global ModData under `ElixirCraftB42WellRegistry`; object modData contains only a display copy. Changing that display copy cannot replenish the server's charges. Wells have no character cooldown; old `ElixirCraftB42.lastWellUse` values are ignored. Native saved-world behavior must be checked in-game; mocked module reload is not a real server restart test.
 
-Disable cure crafting to reserve it for administrators, Survivor League rewards, events, or server vendors.
+A designated well is tied to its saved object marker, coordinates and sprite. If you move a well, remove the healing effect before moving it, then designate it at its new location. Capacities are set when designated, so changing WellCapacity does not resize existing wells.
 
-## Local installation
+## Installation and packaging
 
-Copy `src` as an `ElixirCraftB42` directory under the local mods directory:
+Local mods folder:
 
 ```text
 %USERPROFILE%\Zomboid\mods\ElixirCraftB42\42\mod.info
 %USERPROFILE%\Zomboid\mods\ElixirCraftB42\common\media\...
 ```
 
-Alternatively, run:
-
-```powershell
-powershell -ExecutionPolicy Bypass -File .\tools\build-release.ps1
-```
-
-Then extract `dist\ElixirCraftB42-v1.5.2.zip` into `%USERPROFILE%\Zomboid\mods`.
-
-## Steam Workshop package
-
-Run:
-
-```powershell
-powershell -ExecutionPolicy Bypass -File .\tools\build-workshop.ps1
-```
-
-This creates:
-
-```text
-dist\ElixirCraftB42-Workshop\
-├── workshop.txt
-├── preview.png
-└── Contents\mods\ElixirCraftB42\
-```
-
-Copy `ElixirCraftB42-Workshop` into `%USERPROFILE%\Zomboid\Workshop`, launch Project Zomboid, and open **Workshop → Create and update items**.
-
-After Steam assigns an ID, preserve the generated `id=` value in your private upload workspace. Do not commit a personal Workshop ID to a community fork unless that fork owns the corresponding Workshop item.
-
-## Dedicated server
-
-After publication, configure the server with both Workshop IDs and Mod IDs:
+Dedicated server retains:
 
 ```ini
-WorkshopItems=2392676812;ELIXIR_WORKSHOP_ID
-Mods=lgd_antibodies;ElixirCraftB42
+WorkshopItems=3785221351
+Mods=ElixirCraftB42
 ```
 
-Antibodies is optional at the code level. Remove its Workshop and Mod IDs if the server does not use it.
+Append these to your existing lists; do not replace your other mods. Optional Antibodies retains Workshop ID 2392676812 and mod ID lgd_antibodies.
 
-## Repository structure
+`tools/build-release.ps1` builds the local-install archive. `tools/build-workshop.ps1` builds a Workshop workspace whose template intentionally retains id=0 for generic source use. For YOUR existing item, set id=3785221351 in the private upload workspace or replace only its Contents/mods/ElixirCraftB42 files. The provided prepared bundle has the existing ID set. Do not use a create-new-item flow to update your existing item.
 
-```text
-src/                 Editable Project Zomboid mod
-tools/               PowerShell release builders
-workshop/            Workshop metadata template and preview
-CHANGELOG.md          Version history
-CONTRIBUTING.md       Contribution and testing guidance
-LICENSE               MIT License
+## Validation
+
+```sh
+python3 -m pip install lupa
+python3 tools/test_logic.py
+python3 tools/audit_mod.py
 ```
 
-## Testing
+The mocked suite covers final-charge contention, cooldowns, marker forgery, ownership, caps, disabled features, admin permissions, optional cure policy, cancellation, duplicate completion, failed-use refund policy, single-player handling, split-screen routing and menu callbacks. See TEST_PLAN.md for required in-game checks.
 
-Before publishing a stable release, verify:
-
-1. Both items load without World Dictionary errors.
-2. Both recipes appear and consume the correct ingredients.
-3. Each cure scope changes only its documented infection, bite, wound, or full-health fields.
-4. Antibodies no longer reports an active infection after the cure.
-5. Cooldowns survive relogging and reconnecting.
-6. Sandbox settings appear in hosted and dedicated-server configuration.
-7. A remote multiplayer client receives the same results as the host.
-8. Normal inventory consumption plays the bottle-drinking animation and submits one treatment request containing the consumed item's ID.
-9. A mismatched client receives the localized version warning and cannot submit treatment commands.
-10. Admin-only crafting hides/rejects both recipes for a normal player and permits a valid administrator.
-11. Cure effectiveness failures obey the configured item-return rule, and the returned item is confirmed in its original container.
-12. A second successful cure is rejected only when the one-cure limit is enabled for that character.
-13. Repeated stimulant use cannot lower overall health below one.
-14. Private/global announcements render localized treatment names and respect their cooldown.
-15. Loot rolls occur once on the server and never from a client Lua context.
-16. `console.txt` contains no Lua exceptions or repeated warnings.
-
-The repository does not include Project Zomboid's timed-action implementation, so v1.5.2 deliberately keeps the verified vanilla `Food`/`EatType` animation hook. Treatment is granted only when the server can locate the submitted item ID and matching full type. Test this transaction on the target Build 42 server before public deployment; an unresolved or already-missing item is rejected without granting an effect.
-
-Please attach relevant `console.txt` excerpts and reproduction steps to bug reports.
-
-## Credits
-
-- Developed for the Meeks Protocol Project Zomboid server.
-- Antibodies compatibility targets the open-source work by lonegamedev.
-- Project Zomboid is developed by The Indie Stone.
-
-This project does not redistribute Antibodies or Project Zomboid assets.
-
-## License
-
-Released under the [MIT License](LICENSE).
+MIT license; authored for Meeks Protocol. No game Lua, Antibodies code or vanilla art is redistributed.

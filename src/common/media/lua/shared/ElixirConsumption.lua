@@ -2,7 +2,6 @@ ElixirConsumption = ElixirConsumption or {}
 
 local MOD_DATA_KEY = "ElixirCraftB42"
 local MODULE = "ElixirCraftB42"
-local PROTOCOL_VERSION = 3
 
 local function setting(name, fallback)
     local options = SandboxVars and SandboxVars.ElixirCraftB42
@@ -45,14 +44,16 @@ local function notify(player, text)
 end
 
 local function medicalLevel(recipeData)
-    local player = recipeData and (recipeData.character or recipeData.player)
+    local player = recipeData and (recipeData.getCharacter and recipeData:getCharacter()
+        or recipeData.character or recipeData.player)
     if not player and getPlayer then player = getPlayer() end
     if not player or not player.getPerkLevel or not Perks or not Perks.Doctor then return 0 end
     return tonumber(player:getPerkLevel(Perks.Doctor)) or 0
 end
 
 local function recipePlayer(recipeData)
-    local player = recipeData and (recipeData.character or recipeData.player)
+    local player = recipeData and (recipeData.getCharacter and recipeData:getCharacter()
+        or recipeData.character or recipeData.player)
     if not player and getPlayer then player = getPlayer() end
     return player
 end
@@ -62,9 +63,9 @@ local function isAdministrator(player)
     if (not isClient or not isClient()) and (not isServer or not isServer()) then
         return true
     end
-    if not player.getAccessLevel then return not (isClient and isClient()) end
+    if not player.getAccessLevel then return false end
     local access = string.lower(tostring(player:getAccessLevel() or ""))
-    return access ~= "" and access ~= "none" and access ~= "observer"
+    return access == "admin"
 end
 
 local function craftingAllowed(recipeData)
@@ -124,6 +125,19 @@ local function restoreBodyParts(parts)
         local part = parts:get(i)
         if part.RestoreToFullHealth then part:RestoreToFullHealth() end
     end
+end
+
+-- The well's guaranteed mode uses the same restoration as the bottled cure's
+-- full scope, without the bottle's chance roll, cooldown or lifetime-use limit.
+function ElixirConsumption.RestoreFully(player)
+    local provider = cureKnoxInfection(player)
+    local damage, parts = bodyParts(player)
+    clearBites(parts)
+    clearWoundInfections(parts)
+    restoreBodyParts(parts)
+    damage:RestoreToFullHealth()
+    damage:setOverallBodyHealth(100.0)
+    return provider
 end
 
 local function effectivenessSucceeded()
@@ -313,48 +327,24 @@ function ElixirConsumption.ProcessPostCrash(player)
     return true, fatigue
 end
 
-local function requestTreatment(item, player, treatment, fullType)
-    if not validPlayer(player) then return end
-    if isClient and isClient() then
-        sendClientCommand(MODULE, "UseTreatment", {
-            protocol = PROTOCOL_VERSION,
-            treatment = treatment,
-            itemType = fullType,
-            itemId = item and tostring(item:getID()) or "",
-        })
-        return
+function ElixirConsumption.HandleResult(command, args, player)
+    args = args or {}
+    if not player and tonumber(args.playerOnlineID) and getNumActivePlayers and getSpecificPlayer then
+        for i = 0, getNumActivePlayers() - 1 do
+            local candidate = getSpecificPlayer(i)
+            if candidate and candidate:getOnlineID() == tonumber(args.playerOnlineID) then
+                player = candidate
+                break
+            end
+        end
+        if not player then return end
     end
-
-    local ok, reason, detail = ElixirConsumption.ApplyTreatment(player, treatment)
-    if ok then
-        notify(player, getText(treatment == "KnoxCure"
-            and "IGUI_ElixirCraft_KnoxCureUsed"
-            or "IGUI_ElixirCraft_AdrenalineUsed"))
-    elseif reason == "cooldown" then
-        notify(player, getText("IGUI_ElixirCraft_Cooldown", detail))
-    else
-        notify(player, getText("IGUI_ElixirCraft_TreatmentRejected"))
-    end
-end
-
-function ElixirConsumption.OnEatKnoxCure(item, player, amount)
-    if amount and amount < 0.99 then return end
-    requestTreatment(item, player, "KnoxCure", "ElixirCraft.KnoxCure")
-end
-
-function ElixirConsumption.OnEatAdrenalineStimulant(item, player, amount)
-    if amount and amount < 0.99 then return end
-    requestTreatment(item, player, "AdrenalineStimulant", "ElixirCraft.StaminaElixir")
-end
-
-local function onServerCommand(module, command, args)
-    if module ~= MODULE or not getPlayer then return end
-    local player = getPlayer()
+    player = player or (getSpecificPlayer and getSpecificPlayer(tonumber(args.playerNum) or 0))
     if not player then return end
     if command == "TreatmentApplied" then
         -- Exact server-calculated after-values prevent additive effects from
         -- being applied twice when multiplayer state synchronization catches up.
-        if args.treatment == "KnoxCure" then
+        if isClient() and args.treatment == "KnoxCure" then
             local damage, parts = bodyParts(player)
             if damage then
                 cureKnoxInfection(player)
@@ -369,7 +359,7 @@ local function onServerCommand(module, command, args)
                     damage:setOverallBodyHealth(tonumber(args.healthAfter))
                 end
             end
-        elseif args.treatment == "AdrenalineStimulant" then
+        elseif isClient() and args.treatment == "AdrenalineStimulant" then
             local stats = player:getStats()
             if stats then
                 if tonumber(args.enduranceAfter) then stats:setEndurance(tonumber(args.enduranceAfter)) end
@@ -398,6 +388,38 @@ local function onServerCommand(module, command, args)
                 notify(player, text)
             end
         end
+    elseif command == "WellApplied" then
+        if isClient() then
+            local damage, parts = bodyParts(player)
+            if damage then
+                if args.curedKnox == true then
+                    cureKnoxInfection(player)
+                    if (tonumber(args.cureScope) or 1) >= 2 then clearBites(parts) end
+                    if (tonumber(args.cureScope) or 1) >= 3 then
+                        clearWoundInfections(parts)
+                        restoreBodyParts(parts)
+                    end
+                    if (tonumber(args.cureScope) or 1) >= 4 then damage:RestoreToFullHealth() end
+                end
+                for i = 0, parts:size() - 1 do
+                    local part = parts:get(i)
+                    if args.healWounds == true and (args.curedKnox == true or not part:bitten()) then
+                        part:RestoreToFullHealth()
+                    end
+                    local value = type(args.partHealth) == "table" and tonumber(args.partHealth[i + 1])
+                    if value then part:setHealth(math.max(0, math.min(100, value))) end
+                end
+                if tonumber(args.healthAfter) then damage:setOverallBodyHealth(tonumber(args.healthAfter)) end
+            end
+        end
+        if args.unlimited == true then
+            notify(player, getText("IGUI_ElixirCraft_WellHealedUnlimited"))
+        else
+            notify(player, getText("IGUI_ElixirCraft_WellHealed", args.charges or 0))
+        end
+        if args.cureFailed == true then notify(player, getText("IGUI_ElixirCraft_CureFailed")) end
+    elseif command == "WellChanged" then
+        notify(player, getText("IGUI_ElixirCraft_WellChanged_" .. tostring(args.operation)))
     elseif command == "VersionAccepted" then
         if ElixirConsumption.SetProtocolState then
             ElixirConsumption.SetProtocolState(true, false, tonumber(args.protocol))
@@ -408,7 +430,9 @@ local function onServerCommand(module, command, args)
         end
         notify(player, getText("IGUI_ElixirCraft_VersionMismatch"))
     elseif command == "UsageAnnouncement" then
-        local treatmentName = args.treatment == "KnoxCure"
+        local treatmentName = args.treatment == "HealingWell"
+            and getText("IGUI_ElixirCraft_TreatmentHealingWell")
+            or args.treatment == "KnoxCure"
             and getText("IGUI_ElixirCraft_TreatmentKnoxCure")
             or getText("IGUI_ElixirCraft_TreatmentAdrenaline")
         notify(player, getText("IGUI_ElixirCraft_GlobalUse",
@@ -431,9 +455,15 @@ local function onServerCommand(module, command, args)
         elseif args.reason == "effectiveness-failed" then
             notify(player, getText("IGUI_ElixirCraft_CureFailed"))
         else
-            notify(player, getText("IGUI_ElixirCraft_TreatmentRejected"))
+            local key = "IGUI_ElixirCraft_Reason_" .. string.gsub(tostring(args.reason), "-", "_")
+            local text = getTextOrNull and getTextOrNull(key)
+            notify(player, text or getText("IGUI_ElixirCraft_TreatmentRejected"))
         end
     end
+end
+
+local function onServerCommand(module, command, args)
+    if module == MODULE then ElixirConsumption.HandleResult(command, args) end
 end
 
 if Events and Events.OnServerCommand and isClient and isClient() then

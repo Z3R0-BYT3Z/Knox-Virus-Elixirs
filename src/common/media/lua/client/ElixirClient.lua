@@ -1,7 +1,7 @@
 require "ElixirConsumption"
 
 local MODULE = "ElixirCraftB42"
-local PROTOCOL_VERSION = 3
+local PROTOCOL_VERSION = 4
 local accepted = false
 local mismatched = false
 local lastHelloAt = 0
@@ -30,7 +30,6 @@ local function retryHello()
     end
 end
 
--- Consumption uses the vanilla Food action exclusively. EatType supplies the
--- bottle-drinking animation, then OnEat submits one exact-ID transaction.
+-- Protocol 4 uses shared B42 timed actions; commands only negotiate compatibility.
 if Events.OnCreatePlayer then Events.OnCreatePlayer.Add(requestHello) end
 if Events.OnPlayerUpdate then Events.OnPlayerUpdate.Add(retryHello) end

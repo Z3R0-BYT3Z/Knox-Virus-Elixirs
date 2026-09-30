@@ -1,4 +1,16 @@
 ContextMenu_EN = {
     ContextMenu_ElixirCraft_UseKnoxCure = "Use Experimental Knox Cure",
     ContextMenu_ElixirCraft_UseAdrenaline = "Use Adrenaline Stimulant",
+    ContextMenu_ElixirCraft_Well = "Healing Elixir Well",
+    ContextMenu_ElixirCraft_WellCharges = "Charges: %1 / %2",
+    ContextMenu_ElixirCraft_WellEffect = "Healing: up to %1 health per body part",
+    ContextMenu_ElixirCraft_WellWounds = "Wound restoration enabled",
+    ContextMenu_ElixirCraft_WellKnox = "Experimental Knox cure enabled",
+    ContextMenu_ElixirCraft_DrinkWell = "Drink Healing Elixir",
+    ContextMenu_ElixirCraft_RefillWell = "Donate Knox Cure to Refill",
+    ContextMenu_ElixirCraft_AdminRechargeWell = "Admin: Recharge Well",
+    ContextMenu_ElixirCraft_RemoveWell = "Admin: Remove Healing Effect",
+    ContextMenu_ElixirCraft_DesignateWell = "Admin: Create Healing Elixir Well",
+    ContextMenu_ElixirCraft_WellUnlimited = "Supply: Unlimited",
+    ContextMenu_ElixirCraft_WellFullRecovery = "Full recovery: injuries, bites and infections",
 }

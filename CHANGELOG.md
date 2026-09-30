@@ -1,5 +1,29 @@
 # Changelog
 
+## [1.6.1] - 2026-09-30 (test candidate)
+
+- Default healing well supply is unlimited, including existing empty wells.
+- Default well recovery guarantees the scope-4 restoration of health, injuries, bites and infections.
+- Removed the well cooldown setting and ignores prior saved well cooldowns.
+- Well treatments neither consult nor change bottle/stimulant cooldowns, effectiveness rolls or one-cure limits.
+- Hidden refill/recharge controls in unlimited mode; rejected donations keep the bottle.
+- Matched Workshop preview and in-game poster to the listing's primary purple elixir artwork.
+- Added four regression cases; 54 mocked cases passed.
+
+
+## [1.6.0] - 2026-09-30 (test candidate)
+
+- Added administrator-designated healing wells on existing well/water-source objects.
+- Added server-owned saved charge registry, public donation refills, admin recharge/removal, health and wound settings, optional Knox treatment, and shared per-character well cooldowns.
+- Added native shared B42 timed actions; gameplay mutations occur only in complete().
+- Replaced protocol 3 instant treatment commands with protocol 4 compatibility negotiation.
+- Kept original mod ID, item IDs and Food save classes; CantEat blocks the competing vanilla eating menu.
+- Added consistent single-player and multiplayer rejection policies and synchronized server inventory removal/refund.
+- Restricted administrator-only actions and crafting to the admin access level.
+- Added targeted feedback, split-screen result routing, and 50 mocked Lua gameplay regression cases.
+- Set minimum version to 42.20, the documented target. Native networking and saved-world migration still require in-game validation before public release.
+
+
 ## [1.5.2] - 2026-08-22
 
 - imports the audited v1.5.2 package exactly as deployed;

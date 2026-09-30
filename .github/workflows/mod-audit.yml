@@ -43,3 +43,8 @@ jobs:
 
       - name: Audit Project Zomboid structure
         run: python3 tools/audit_mod.py
+
+      - name: Run mocked Lua gameplay regression tests
+        run: |
+          python3 -m pip install lupa
+          python3 tools/test_logic.py

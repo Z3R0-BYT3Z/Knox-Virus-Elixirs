@@ -36,7 +36,8 @@ def warning(message: str) -> None:
 
 
 files = [path for path in ROOT.rglob("*") if path.is_file() and not ignored(path)]
-lua_files = [path for path in files if path.suffix.lower() == ".lua"]
+lua_files = [path for path in files if path.suffix.lower() == ".lua"
+             and "tests" not in path.relative_to(ROOT).parts]
 mod_info_files = [path for path in files if path.name.lower() == "mod.info"]
 sandbox_files = [path for path in files if path.name.lower() == "sandbox-options.txt"]
 

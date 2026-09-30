@@ -4,7 +4,8 @@ module ElixirCraft
     {
         DisplayName = Experimental Knox Cure,
         DisplayCategory = FirstAid,
-        Type = Food,
+        ItemType = base:food,
+        CantEat = TRUE,
         Icon = PotionHealth,
         Weight = 0.2,
         HungerChange = 0,
@@ -18,14 +19,14 @@ module ElixirCraft
         IsCookable = FALSE,
         EatType = 2handbottle,
         CustomEatSound = DrinkingFromBottle,
-        OnEat = ElixirConsumption.OnEatKnoxCure,
     }
 
     item StaminaElixir
     {
         DisplayName = Adrenaline Stimulant,
         DisplayCategory = FirstAid,
-        Type = Food,
+        ItemType = base:food,
+        CantEat = TRUE,
         Icon = PotionStamina,
         Weight = 0.2,
         HungerChange = 0,
@@ -39,6 +40,5 @@ module ElixirCraft
         IsCookable = FALSE,
         EatType = 2handbottle,
         CustomEatSound = DrinkingFromBottle,
-        OnEat = ElixirConsumption.OnEatAdrenalineStimulant,
     }
 }

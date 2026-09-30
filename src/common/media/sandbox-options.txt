@@ -337,3 +337,102 @@ option ElixirCraftB42.EnableDebugLogging
     page = ElixirCraftB42,
     translation = EnableDebugLogging,
 }
+
+option ElixirCraftB42.EnableHealingWell
+{
+    type = boolean,
+    default = true,
+    page = ElixirCraftB42,
+    translation = EnableHealingWell,
+}
+
+option ElixirCraftB42.WellCapacity
+{
+    type = integer,
+    min = 1,
+    max = 10000,
+    default = 20,
+    page = ElixirCraftB42,
+    translation = WellCapacity,
+}
+
+option ElixirCraftB42.WellInitialCharges
+{
+    type = integer,
+    min = 0,
+    max = 10000,
+    default = 5,
+    page = ElixirCraftB42,
+    translation = WellInitialCharges,
+}
+
+option ElixirCraftB42.WellHealAmount
+{
+    type = double,
+    min = 1.0,
+    max = 100.0,
+    default = 25.0,
+    page = ElixirCraftB42,
+    translation = WellHealAmount,
+}
+
+option ElixirCraftB42.WellHealWounds
+{
+    type = boolean,
+    default = false,
+    page = ElixirCraftB42,
+    translation = WellHealWounds,
+}
+
+option ElixirCraftB42.WellCuresKnox
+{
+    type = boolean,
+    default = false,
+    page = ElixirCraftB42,
+    translation = WellCuresKnox,
+}
+
+
+option ElixirCraftB42.WellAllowPlayerRefill
+{
+    type = boolean,
+    default = true,
+    page = ElixirCraftB42,
+    translation = WellAllowPlayerRefill,
+}
+
+option ElixirCraftB42.WellRefillCharges
+{
+    type = integer,
+    min = 1,
+    max = 10000,
+    default = 5,
+    page = ElixirCraftB42,
+    translation = WellRefillCharges,
+}
+
+option ElixirCraftB42.WellActionTime
+{
+    type = integer,
+    min = 30,
+    max = 600,
+    default = 120,
+    page = ElixirCraftB42,
+    translation = WellActionTime,
+}
+
+option ElixirCraftB42.WellUnlimitedSupply
+{
+    type = boolean,
+    default = true,
+    page = ElixirCraftB42,
+    translation = WellUnlimitedSupply,
+}
+
+option ElixirCraftB42.WellFullRecovery
+{
+    type = boolean,
+    default = true,
+    page = ElixirCraftB42,
+    translation = WellFullRecovery,
+}
